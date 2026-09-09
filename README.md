@@ -1,90 +1,123 @@
-# RedditRadar (SaaS Lead Generation & Reddit Monitoring Tool)
+# RedditRadar — SaaS Lead Generation & Reddit Monitoring UI
 
-RedditRadar is a modern, high-fidelity landing page and interactive sandbox simulator built with **React**, **Vite**, and **Tailwind CSS v4**. It helps SaaS founders, marketers, and solopreneurs automate the discovery of high-intent customer conversations on Reddit and draft contextual, AI-assisted responses.
+A high-fidelity SaaS product interface for discovering high-intent customer conversations on Reddit. The project combines a polished marketing landing page with an interactive **Reddit lead-scanning simulator** that demonstrates how a monitoring workflow could identify relevant posts and assist with contextual reply drafting.
 
-🚀 **Live Simulator Demo Included**: The project features a fully interactive client-side Reddit monitoring scanner that simulates AI keyword extraction, subreddit crawling, relevance scoring (0-100), and reply drafting.
+> **Note:** The Reddit crawler, relevance scoring, and AI reply generation are intentionally simulated on the client side. No real Reddit data is crawled and no external AI API is required to run the demo.
 
----
+## Highlights
 
-## ✨ Features
+- Responsive SaaS landing page with dark, modern UI
+- Interactive Reddit lead-generation simulator
+- Product name + description based search workflow
+- Simulated crawling/progress states
+- Relevance scoring visualization (0–100)
+- Post detail view with editable response drafts
+- Copy-to-clipboard interaction for generated replies
+- Monthly / annual pricing toggle with discount calculation
+- FAQ accordion and animated UI sections
+- Responsive layouts for desktop and mobile
+- Reusable React components and hooks-based state management
 
-- **Responsive Landing Page**: Sleek, dark-mode SaaS interface built using mobile-first design principles.
-- **Interactive Reddit Lead Simulator**:
-  - Input custom product names and descriptions.
-  - Asynchronous simulated crawler sequence showing crawling steps.
-  - Custom relevance-scoring algorithm (0-100) representation.
-  - Interactive post detail panel with editable reply drafts and copy-to-clipboard functionality.
-- **Infinite Scrolling Marquee**: Clean marquee effect displaying simulated Reddit search queries.
-- **Interactive Pricing Tables**: Subscriptions with a dynamic billing period toggle (Monthly vs. Annual with 20% discount calculation).
-- **Collapsible FAQ Accordion**: Interactive state-based FAQ cards explaining scoring logic, account protection, and sweep intervals.
+## Tech Stack
 
----
+- **React 19** — component-based UI and state management
+- **Vite** — development server and production build tooling
+- **Tailwind CSS v4** — responsive styling and design system
+- **Lucide React** — interface icons
+- **ESLint** — code quality and linting
 
-## 🛠️ Tech Stack & Architecture
+## Architecture
 
-- **Framework**: [React](https://react.dev/) (Functional components, hooks architecture)
-- **Build Tool**: [Vite](https://vite.dev/) (Fast ESM-based hot module replacement)
-- **Styling**: [Tailwind CSS v4](https://tailwindcss.com/) (CSS-first configuration, native cascade layers, and CSS-based custom keyframe animations)
-- **Icons**: [Lucide React](https://lucide.dev/) (Modern typography icons)
-
-### Component Organization
 ```text
 src/
 ├── components/
-│   ├── Navbar.jsx          # Glassmorphic header with responsive mobile panel
-│   ├── Hero.jsx            # Dynamic headline and query ticker
-│   ├── RedditSimulator.jsx # Lead scanner and draft editor state machine
-│   ├── Features.jsx        # Product capabilities grid
-│   ├── Process.jsx         # 3-step setup timeline
-│   ├── FounderNote.jsx     # Personal note/letter layout
-│   ├── Testimonials.jsx    # Star-rated review cards
-│   ├── Pricing.jsx         # Billing cycle toggle and pricing tiers
-│   ├── FAQ.jsx             # Collapsible FAQ accordion cards
-│   └── Footer.jsx          # Directory links and newsletter actions
-├── App.jsx                 # Layout wireframe coordination
-├── index.css               # Global configurations & animations
-└── main.jsx                # Application root mounting
+│   ├── Navbar.jsx
+│   ├── Hero.jsx
+│   ├── RedditSimulator.jsx
+│   ├── Features.jsx
+│   ├── Process.jsx
+│   ├── FounderNote.jsx
+│   ├── Testimonials.jsx
+│   ├── Pricing.jsx
+│   ├── FAQ.jsx
+│   └── Footer.jsx
+├── App.jsx
+├── index.css
+└── main.jsx
 ```
 
----
+`App.jsx` is responsible for page composition, while individual sections are implemented as reusable components. The simulator manages its workflow locally, moving through input, scanning, results, and reply-drafting states.
 
-## 🚀 Local Installation & Setup
+## How the Simulator Works
 
-Ensure you have [Node.js](https://nodejs.org/) installed, then follow these steps:
+1. Enter a product name and description.
+2. Start the simulated Reddit scan.
+3. The UI progresses through crawler-style loading states.
+4. Simulated posts are displayed with relevance scores.
+5. Select a post to inspect its details and suggested response.
+6. Edit the response and copy it to the clipboard.
 
-1. **Clone the repository**:
-   ```bash
-   git clone https://github.com/your-username/reddit-radar.git
-   cd reddit-radar
-   ```
+The simulator is structured so the mock data layer can later be replaced with a real Reddit/API-backed service without changing the overall product UI.
 
-2. **Install dependencies**:
-   ```bash
-   npm install
-   ```
+## Getting Started
 
-3. **Run the development server**:
-   ```bash
-   npm run dev
-   ```
-   *The server will start at `http://localhost:5173/`.*
+### Prerequisites
 
-4. **Build for production**:
-   ```bash
-   npm run build
-   ```
+- Node.js 18+
+- npm
 
----
+### Installation
 
-## 💡 Key Technical Learnings & Patterns Used
+```bash
+git clone https://github.com/anmolmishra3019/Redship-Frontend-Clone.git
+cd Redship-Frontend-Clone
+npm install
+```
 
-### 1. State Management & Conditional Rendering
-- Handled UI workflows (Idle form -> Loading progress -> Scanned results) using local component states (`useState`).
-- Synced state properties from list selections to detail views to populate sidebar data dynamically.
+### Development
 
-### 2. Side Effect Cleanup (useEffect)
-- Built a multi-step simulated crawler loading bar that increments at set intervals using `setInterval`.
-- Implemented state cleanup by returning a function to clear the interval upon component unmount, preventing memory leaks.
+```bash
+npm run dev
+```
 
-### 3. Tailwind CSS v4 Configurations
-- Configured layout themes (custom font families, color palettes, and scrollbars) directly inside `src/index.css` via the `@theme` directive, avoiding the need for a separate config file.
+The Vite development server will provide a local URL, typically `http://localhost:5173`.
+
+### Production Build
+
+```bash
+npm run build
+```
+
+### Lint
+
+```bash
+npm run lint
+```
+
+## Engineering Decisions
+
+### Component-driven UI
+The page is split into focused sections instead of keeping the entire interface inside a single component. This makes individual sections easier to reason about and modify.
+
+### State-driven simulator
+The Reddit scanner is implemented as a state-driven UI workflow. Loading, progress, results, selected posts, and reply drafts are updated through React state rather than hard-coded page transitions.
+
+### Responsive-first styling
+Tailwind utilities are used to keep layouts responsive across desktop and mobile breakpoints while maintaining consistent spacing, typography, and interaction states.
+
+### Cleanup of asynchronous UI work
+Timed simulator steps use effect cleanup so active intervals do not continue running after the component unmounts.
+
+## Future Improvements
+
+- Connect the simulator to a real Reddit/API-backed data source
+- Move mock scenarios and scoring logic into dedicated data/service modules
+- Add backend authentication and persistent user projects
+- Add automated tests for scoring and workflow logic
+- Add real AI-powered reply generation
+
+## Author
+
+**Anmol Mishra**
+
+GitHub: [@anmolmishra3019](https://github.com/anmolmishra3019)
